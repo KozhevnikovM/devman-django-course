@@ -14,7 +14,7 @@ class Place(models.Model):
 class Image(models.Model):
     image = models.ImageField()
     name = models.CharField(max_length=200, primary_key=True)
-    order = models.SmallIntegerField(unique=True, default=0)
+    order = models.SmallIntegerField(unique=False, default=1)
     place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
