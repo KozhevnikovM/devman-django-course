@@ -1,30 +1,18 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from app.models import Place, Image
+from django.utils import html, safestring
 
 def show_index(request):
-    places = Place.objects.all()
-    images = Image.objects.all().filter(place=places[0])
-
-    value = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [place.coordinates_lng, place.coordinates_lat]
-          },
-          "properties": {
-            "title": place.title,
-            "placeId": place.title,
-            "detailsUrl": "static/places/moscow_legends.json"
-
-          }
-        } for place in places
-      ]
-    }
+    value = Place.get_points()
     context = {
         'value': value
     }
     return render(request, context=context, template_name='index.html')
+
+
+def place_detail_view(request, place_id):
+    place = get_object_or_404(Place, id=place_id)
+    place_details = place.get_details()
+    print(place_details['description_long'])
+    return JsonResponse(place_details, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 2, })
