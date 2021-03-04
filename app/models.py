@@ -49,7 +49,7 @@ class Place(models.Model):
                 "properties": {
                     "title": place.properties_title,
                     "placeId": place.properties_place_id,
-                    "detailsUrl": "static/places/moscow_legends.json"
+                    "detailsUrl": f"places/{place.id}"
 
                 }
                 }
