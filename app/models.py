@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import html
 from django.shortcuts import get_list_or_404
 from django.core import serializers
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Place(models.Model):
@@ -15,7 +16,7 @@ class Place(models.Model):
 
     details_title = models.CharField(max_length=200, help_text='Заголовок')
     details_description_short = models.CharField(max_length=400, help_text='Краткое описание')
-    details_description_long = models.TextField()
+    details_description_long = HTMLField()
     details_lng = models.FloatField()
     details_lat = models.FloatField()
 
