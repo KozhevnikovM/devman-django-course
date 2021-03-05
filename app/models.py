@@ -3,17 +3,11 @@ from django.utils import html
 from django.shortcuts import get_list_or_404
 from django.core import serializers
 from tinymce.models import HTMLField
+from django.http import Http404
 
 # Create your models here.
 class Place(models.Model):
     id = models.AutoField(primary_key=True)
-
-    point_lng = models.FloatField()
-    point_lat = models.FloatField()
-
-    properties_title = models.CharField(max_length=200, help_text='Название точки на карте')
-    properties_place_id = models.CharField(max_length=200, unique=True, help_text='ID точки')
-
     details_title = models.CharField(max_length=200, help_text='Заголовок')
     details_description_short = models.CharField(max_length=400, help_text='Краткое описание')
     details_description_long = HTMLField()
@@ -34,7 +28,10 @@ class Place(models.Model):
         
 
     def get_images_urls(self):
-        return [item.image.url for item in get_list_or_404(Image, place=self)]
+        try:
+            return [item.image.url for item in get_list_or_404(Image, place=self)]
+        except Http404:
+            return []
     
     @classmethod
     def get_points(cls):
@@ -45,11 +42,11 @@ class Place(models.Model):
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [place.point_lng, place.point_lat]
+                    "coordinates": [place.details_lng, place.details_lat]
                 },
                 "properties": {
-                    "title": place.properties_title,
-                    "placeId": place.properties_place_id,
+                    "title": place.details_title,
+                    "placeId": place.id,
                     "detailsUrl": f"places/{place.id}"
 
                 }
@@ -58,7 +55,7 @@ class Place(models.Model):
             }
 
     def __str__(self):
-        return self.properties_title
+        return self.details_title
 
 
 class Image(models.Model):
