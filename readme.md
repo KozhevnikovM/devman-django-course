@@ -57,12 +57,6 @@ python manage.py load_place your-json-filepath
 Где ```your-json-filepath``` - Путь до json-файла (url или локальный файл)
 Со структурой json-файла для импорта можно ознакомиться по [данной ссылке](https://github.com/devmanorg/where-to-go-places/tree/master/places)
 
-Для обработки сразу нескольких файлов из папки, можно воспользоваться циклом bash:
-```
-for filename in temp/places/*.json; do
-  python manage.py load_place "$filename"
-done
-```
 Скачать демонстрационные файлы json без картинок:
 ```
 mkdir temp/ && cd temp/
@@ -72,6 +66,13 @@ git remote add –f origin https://github.com/devmanorg/where-to-go-places.git
 git config core.sparsecheckout true
 echo places/ >> .git/info/sparse-checkout
 git pull origin master
+```
+
+Для обработки сразу нескольких файлов из папки, можно воспользоваться циклом bash:
+```
+for filename in temp/places/*.json; do
+  python manage.py load_place "$filename"
+done
 ```
 
 ## Project Goals
