@@ -57,10 +57,10 @@ python manage.py load_place your-json-filepath
 Где ```your-json-filepath``` - Путь до json-файла (url или локальный файл)
 Со структурой json-файла для импорта можно ознакомиться по [данной ссылке](https://github.com/devmanorg/where-to-go-places/tree/master/places)
 
-Для обработки сразу нескольких файлов из папки, можно воспользоваться встроенным циклом bash:
+Для обработки сразу нескольких файлов из папки, можно воспользоваться циклом bash:
 ```
-for filename in temp/*.json; do
-  python manage.py load_place $filename
+for filename in ../temp/places/*.json; do
+  python manage.py load_place "$filename"
 done
 ```
 
