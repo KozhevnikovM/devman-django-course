@@ -12,16 +12,34 @@ from app.models import Place, Image
 import json
 from urllib.parse import urlparse
 from django.core.files.base import ContentFile
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 class Command(BaseCommand):
     help = 'Import place from json'
 
     def add_arguments(self, parser):
-        parser.add_argument('filename', type=str)
-    
-    def get_place_details(self, filename):
-        with open(filename, 'r', encoding='utf-8') as file:
-            place_data = json.loads(file.read())
+        parser.add_argument('filepath', type=str, help='Json file path: url or localfile')
+
+    def is_path_url(self, filepath):
+        url_validator = URLValidator()
+        try:
+            url_validator(filepath)
+            return True
+        except ValidationError:
+            return False
+
+    def load_json_from_file(self, filepath):
+        with open(filepath, 'r', encoding='utf-8') as file:
+            return json.loads(file.read())
+
+    def load_json_from_url(self, url):
+        response = requests.get(url)
+        if response.ok:
+            return response.json()
+
+    def get_place_details(self, filepath):
+        place_data = self.load_json_from_url(filepath) if self.is_path_url(filepath) else self.load_json_from_file(filepath)
         place_details = {
             'details_title': place_data['title'],
             'details_description_short': place_data['description_short'],
@@ -33,7 +51,7 @@ class Command(BaseCommand):
         return place_details
 
     def handle(self, *args, **options):
-        place_details = self.get_place_details(options['filename'])
+        place_details = self.get_place_details(options['filepath'])
         urls = place_details.pop('imgs', None)
         place, get_place_result = Place.objects.get_or_create(**place_details)
         if not get_place_result:
@@ -51,8 +69,3 @@ class Command(BaseCommand):
             response = requests.get(url)
             image.image.save(filename, ContentFile(response.content), save=True)
             self.stdout.write(self.style.SUCCESS(f'Successfully Added {image}'))
-
-        
-
-        
-    
