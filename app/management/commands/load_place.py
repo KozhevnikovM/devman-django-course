@@ -36,15 +36,23 @@ class Command(BaseCommand):
         place_details = self.get_place_details(options['filename'])
         urls = place_details.pop('imgs', None)
         place, get_place_result = Place.objects.get_or_create(**place_details)
+        if not get_place_result:
+            self.stdout.write(self.style.SUCCESS(f'{place} allready exists'))
+        else:
+            self.stdout.write(self.style.SUCCESS(f'Successfully Added place {place}'))
 
         
         for url in urls:
             filename = urlparse(url).path.split('/')[-1]
-            response = requests.get(url)
             image, get_image_result = Image.objects.get_or_create(place=place, name=filename)
+            if not get_image_result:
+                 self.stdout.write(self.style.SUCCESS(f'{image} allready exists'))
+                 continue
+            response = requests.get(url)
             image.image.save(filename, ContentFile(response.content), save=True)
+            self.stdout.write(self.style.SUCCESS(f'Successfully Added {image}'))
 
         
 
-        self.stdout.write(self.style.SUCCESS(f'Successfully Added place {place}'))
+        
     
