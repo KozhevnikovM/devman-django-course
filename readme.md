@@ -59,9 +59,19 @@ python manage.py load_place your-json-filepath
 
 Для обработки сразу нескольких файлов из папки, можно воспользоваться циклом bash:
 ```
-for filename in ../temp/places/*.json; do
+for filename in temp/places/*.json; do
   python manage.py load_place "$filename"
 done
+```
+Скачать демонстрационные файлы json без картинок:
+```
+mkdir temp/ && cd temp/
+git init
+git remote add –f origin https://github.com/devmanorg/where-to-go-places.git
+
+git config core.sparsecheckout true
+echo places/ >> .git/info/sparse-checkout
+git pull origin master
 ```
 
 ## Project Goals
