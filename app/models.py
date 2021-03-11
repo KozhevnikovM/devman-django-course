@@ -7,12 +7,11 @@ from django.http import Http404
 
 # Create your models here.
 class Place(models.Model):
-    id = models.AutoField(primary_key=True)
-    details_title = models.CharField(max_length=200, help_text='Заголовок')
-    details_description_short = models.CharField(max_length=400, help_text='Краткое описание')
-    details_description_long = HTMLField()
-    details_lng = models.FloatField()
-    details_lat = models.FloatField()
+    details_title = models.CharField(max_length=200, verbose_name='Название места')
+    details_description_short = models.CharField(max_length=400, verbose_name='Краткое описание')
+    details_description_long = HTMLField(verbose_name='Подробное описание')
+    details_lng = models.FloatField(verbose_name='Координата по долготе')
+    details_lat = models.FloatField(verbose_name='Координата по широте')
 
     def get_details(self):
         return {
@@ -59,11 +58,10 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    id = models.AutoField(primary_key=True)
-    image = models.ImageField()
-    name = models.CharField(max_length=200)
-    order = models.SmallIntegerField(unique=False, default=1)
-    place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(verbose_name='Файл изображения')
+    name = models.CharField(max_length=200, verbose_name='Название фотографии')
+    order = models.SmallIntegerField(unique=False, default=1, verbose_name='Номер фотографии в списке')
+    place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место')
 
     def __str__(self):
         return f'{self.order} {self.name}'
