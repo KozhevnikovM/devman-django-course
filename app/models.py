@@ -8,8 +8,8 @@ from django.http import Http404
 # Create your models here.
 class Place(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название места')
-    description_short = models.TextField(verbose_name='Краткое описание')
-    description_long = HTMLField(verbose_name='Подробное описание')
+    short_description = models.TextField(verbose_name='Краткое описание')
+    long_description = HTMLField(verbose_name='Подробное описание')
     lng = models.FloatField(verbose_name='Координата по долготе')
     lat = models.FloatField(verbose_name='Координата по широте')
 
@@ -17,8 +17,8 @@ class Place(models.Model):
         return {
             "title": self.title,
             "imgs": self.get_images_urls(),
-            "description_short": self.description_short,
-            "description_long": self.description_long,
+            "short_description": self.short_description,
+            "long_description": self.long_description,
             "coordinates": {
                 "lat": self.lat,
                 "lng": self.lng,
