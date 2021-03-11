@@ -8,8 +8,8 @@ from django.http import Http404
 # Create your models here.
 class Place(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название места')
-    short_description = models.TextField(verbose_name='Краткое описание')
-    long_description = HTMLField(verbose_name='Подробное описание')
+    short_description = models.TextField(verbose_name='Краткое описание', blank=True)
+    long_description = HTMLField(verbose_name='Подробное описание', blank=True)
     lng = models.FloatField(verbose_name='Координата по долготе')
     lat = models.FloatField(verbose_name='Координата по широте')
 
@@ -59,12 +59,12 @@ class Place(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(verbose_name='Файл изображения')
-    name = models.CharField(max_length=200, verbose_name='Название фотографии')
+    # name = models.CharField(max_length=200, verbose_name='Название фотографии')
     order = models.SmallIntegerField(unique=False, default=1, verbose_name='Номер фотографии в списке')
     place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место')
 
     def __str__(self):
-        return f'{self.order} {self.name}'
+        return f'{self.order} {self.image}'
     
     class Meta:
         ordering = ['order']
