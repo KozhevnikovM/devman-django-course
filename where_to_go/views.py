@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from app.models import Place, Image
+from places.models import Place, Image
 from django.utils import html, safestring
 
 def show_index(request):

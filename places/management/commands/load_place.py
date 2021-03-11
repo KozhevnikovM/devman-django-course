@@ -1,6 +1,6 @@
 import requests
 from django.core.management.base import BaseCommand, CommandError
-from app.models import Place, Image
+from places.models import Place, Image
 import json
 from urllib.parse import urlparse
 from django.core.files.base import ContentFile
@@ -34,7 +34,7 @@ class Command(BaseCommand):
         place_data = self.load_json_from_url(filepath) if self.is_path_url(filepath) else self.load_json_from_file(filepath)
         place_details = {
             'title': place_data['title'],
-            'short_description': place_data['description_short'],
+            'short_description': place_data['short_description'],
             'long_description': place_data['description_long'],
             'lng': place_data['coordinates']['lng'],
             'lat': place_data['coordinates']['lat'],

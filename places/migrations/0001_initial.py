@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(upload_to='')),
                 ('name', models.CharField(max_length=200)),
                 ('order', models.SmallIntegerField(default=1)),
-                ('place', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='app.place')),
+                ('place', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='places.place')),
             ],
             options={
                 'ordering': ['order'],

@@ -17,8 +17,8 @@ class Place(models.Model):
         return {
             "title": self.title,
             "imgs": self.get_images_urls(),
-            "short_description": self.short_description,
-            "long_description": self.long_description,
+            "description_short": self.short_description,
+            "description_long": self.long_description,
             "coordinates": {
                 "lat": self.lat,
                 "lng": self.lng,

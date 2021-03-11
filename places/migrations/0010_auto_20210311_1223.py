@@ -7,7 +7,7 @@ import tinymce.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0009_auto_20210311_1219'),
+        ('places', '0009_auto_20210311_1219'),
     ]
 
     operations = [
