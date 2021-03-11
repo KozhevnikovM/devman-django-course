@@ -59,11 +59,12 @@ class Place(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(verbose_name='Файл изображения')
-    # name = models.CharField(max_length=200, verbose_name='Название фотографии')
-    order = models.SmallIntegerField(unique=False, default=1, verbose_name='Номер фотографии в списке')
+    order = models.SmallIntegerField(unique=False, blank=True, null=True, verbose_name='Номер фотографии в списке')
     place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место')
 
     def __str__(self):
+        if not self.image:
+            return
         return f'{self.order} {self.image}'
     
     class Meta:

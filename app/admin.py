@@ -11,14 +11,16 @@ class ImageAdmin(admin.ModelAdmin):
 
 class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     readonly_fields = ('get_preview',)
-    fields = ('name', 'get_preview', 'order')
+    fields = ('image', 'get_preview', 'order')
 
     def get_preview(self, obj):
-        return format_html('<img src="{url}" height={height} />'.format(
-            url = obj.image.url,
-            height=200,
+        if not obj.__str__():
+            return format_html('Здесь будет превью, когда вы выберете файл')
+        return format_html(
+            '<img src="{}" height={} />',
+            obj.image.url,
+            200
             )
-        )
     
     get_preview.short_description = 'preview'
     extra = 1
