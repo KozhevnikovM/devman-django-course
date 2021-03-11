@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'places.apps.AppConfig',
     'adminsortable2',
     'tinymce',
-    'django_rename_app'
 ]
 
 MIDDLEWARE = [
