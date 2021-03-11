@@ -3,7 +3,7 @@ from .models import Place, Image
 from django.utils.html import mark_safe, format_html
 from adminsortable2.admin import SortableInlineAdminMixin
 
-# admin.site.register(Image)
+
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     raw_id_fields = ('place',)
