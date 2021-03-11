@@ -14,5 +14,4 @@ def show_index(request):
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     place_details = place.get_details()
-    print(place_details['description_long'])
     return JsonResponse(place_details, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 2, })
