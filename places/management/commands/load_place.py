@@ -34,7 +34,7 @@ class Command(BaseCommand):
         place_data = self.load_json_from_url(filepath) if self.is_path_url(filepath) else self.load_json_from_file(filepath)
         place_details = {
             'title': place_data['title'],
-            'short_description': place_data['short_description'],
+            'short_description': place_data['description_short'],
             'long_description': place_data['description_long'],
             'lng': place_data['coordinates']['lng'],
             'lat': place_data['coordinates']['lat'],
