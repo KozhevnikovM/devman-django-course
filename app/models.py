@@ -59,6 +59,7 @@ class Place(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(verbose_name='Файл изображения')
+    name = models.CharField(max_length=200, blank=True, default=image.name, editable=False)
     order = models.SmallIntegerField(unique=False, blank=True, null=True, verbose_name='Номер фотографии в списке')
     place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место')
 
