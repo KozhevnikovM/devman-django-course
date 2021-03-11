@@ -7,21 +7,21 @@ from django.http import Http404
 
 # Create your models here.
 class Place(models.Model):
-    details_title = models.CharField(max_length=200, verbose_name='Название места')
-    details_description_short = models.CharField(max_length=400, verbose_name='Краткое описание')
-    details_description_long = HTMLField(verbose_name='Подробное описание')
-    details_lng = models.FloatField(verbose_name='Координата по долготе')
-    details_lat = models.FloatField(verbose_name='Координата по широте')
+    title = models.CharField(max_length=200, verbose_name='Название места')
+    description_short = models.TextField(verbose_name='Краткое описание')
+    description_long = HTMLField(verbose_name='Подробное описание')
+    lng = models.FloatField(verbose_name='Координата по долготе')
+    lat = models.FloatField(verbose_name='Координата по широте')
 
     def get_details(self):
         return {
-            "title": self.details_title,
+            "title": self.title,
             "imgs": self.get_images_urls(),
-            "description_short": self.details_description_short,
-            "description_long": self.details_description_long,
+            "description_short": self.description_short,
+            "description_long": self.description_long,
             "coordinates": {
-                "lat": self.details_lat,
-                "lng": self.details_lng,
+                "lat": self.lat,
+                "lng": self.lng,
             }
         }
         
@@ -41,10 +41,10 @@ class Place(models.Model):
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [place.details_lng, place.details_lat]
+                    "coordinates": [place.lng, place.lat]
                 },
                 "properties": {
-                    "title": place.details_title,
+                    "title": place.title,
                     "placeId": place.id,
                     "detailsUrl": f"places/{place.id}"
 
@@ -54,7 +54,7 @@ class Place(models.Model):
             }
 
     def __str__(self):
-        return self.details_title
+        return self.title
 
 
 class Image(models.Model):
