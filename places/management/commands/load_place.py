@@ -45,7 +45,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         place_details = self.get_place_details(options['filepath'])
         urls = place_details.pop('imgs', None)
-        place, get_place_result = Place.objects.get_or_create(**place_details)
+        place, get_place_result = Place.objects.get_or_create(title=place_details['title'], defaults=place_details)
         if not get_place_result:
             self.stdout.write(self.style.SUCCESS(f'{place} allready exists'))
         else:
