@@ -6,7 +6,8 @@ from adminsortable2.admin import SortableInlineAdminMixin
 # admin.site.register(Image)
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    pass
+    raw_id_fields = ('place',)
+    autocomplete_fields = ['place']
 
 
 class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -35,4 +36,5 @@ class PlaceAdmin(admin.ModelAdmin):
     inlines = [
         ImageInline
     ]
+    search_fields = ('title',)
 
