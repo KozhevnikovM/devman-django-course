@@ -14,10 +14,7 @@ class Place(models.Model):
     lat = models.FloatField(verbose_name='Координата по широте')
     
     def get_images_urls(self):
-        try:
-            return [item.image.url for item in get_list_or_404(Image, place=self)]
-        except Http404:
-            return []
+        return [image.image.url for image in self.images.all()]
     
     @classmethod
     def get_points(cls):
@@ -48,7 +45,7 @@ class Image(models.Model):
     image = models.ImageField(verbose_name='Файл изображения')
     name = models.CharField(max_length=200, blank=True, default=image.name, editable=False)
     order = models.SmallIntegerField(unique=False, blank=True, null=True, verbose_name='Номер фотографии в списке')
-    place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место')
+    place = models.ForeignKey(to='Place', on_delete=models.SET_NULL, null=True, verbose_name='Место', related_name='images')
 
     def __str__(self):
         if not self.image:
