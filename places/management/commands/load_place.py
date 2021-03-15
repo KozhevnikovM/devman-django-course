@@ -11,15 +11,9 @@ class Command(BaseCommand):
     help = 'Import place from json'
 
     def add_arguments(self, parser):
-        parser.add_argument('filepath', type=str, help='Json file path: url or localfile')
-
-    def is_path_url(self, filepath):
-        url_validator = URLValidator()
-        try:
-            url_validator(filepath)
-            return True
-        except ValidationError:
-            return False
+        group = parser.add_mutually_exclusive_group(required=True)
+        group.add_argument('--url', type=str, help='Url to global json file')
+        group.add_argument('--path', type=str, help='Path to local json file')
 
     def load_json_from_file(self, filepath):
         with open(filepath, 'r', encoding='utf-8') as file:
@@ -30,20 +24,20 @@ class Command(BaseCommand):
         if response.ok:
             return response.json()
 
-    def get_place_details(self, filepath):
-        place_data = self.load_json_from_url(filepath) if self.is_path_url(filepath) else self.load_json_from_file(filepath)
+    def get_place_details(self, json_data):
         place_details = {
-            'title': place_data['title'],
-            'short_description': place_data['description_short'],
-            'long_description': place_data['description_long'],
-            'lng': place_data['coordinates']['lng'],
-            'lat': place_data['coordinates']['lat'],
-            'imgs': place_data['imgs']
+            'title': json_data['title'],
+            'short_description': json_data['description_short'],
+            'long_description': json_data['description_long'],
+            'lng': json_data['coordinates']['lng'],
+            'lat': json_data['coordinates']['lat'],
+            'imgs': json_data['imgs']
         }
         return place_details
 
     def handle(self, *args, **options):
-        place_details = self.get_place_details(options['filepath'])
+        json_data = self.load_json_from_url(options['url']) if options['url'] else self.load_json_from_file(options['path'])
+        place_details = self.get_place_details(json_data)
         urls = place_details.pop('imgs', None)
         place, get_place_result = Place.objects.get_or_create(title=place_details['title'], defaults=place_details)
         if not get_place_result:
