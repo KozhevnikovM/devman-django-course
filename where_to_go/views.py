@@ -4,9 +4,9 @@ from places.models import Place, Image
 from django.utils import html, safestring
 
 def show_index(request):
-    value = Place.get_points()
+    places = Place.get_points()
     context = {
-        'value': value
+        'places': places
     }
     return render(request, context=context, template_name='index.html')
 
