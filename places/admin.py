@@ -18,8 +18,9 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
         if not obj.__str__():
             return format_html('Здесь будет превью, когда вы выберете файл')
         return format_html(
-            '<img src="{}" height={} />',
+            '<img src="{}" style="max-height: {}px; max-width: {}px;"/>',
             obj.image.url,
+            200,
             200
             )
     
