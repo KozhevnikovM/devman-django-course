@@ -16,9 +16,9 @@ mv example.env .env
 1. Откройте файл .env в вашем любимом текстовом редакторе и пропишите ваши переменные окружение
   
   ```
-  DEBUG=True # Локально используйте True, в продакшене - False
-  SECRET_KEY=sUpEr-Long-aNd-sEcurE-StRing # длинная и сложная строка
-  ALLOWED_HOSTS=[www.mydomain.com, mydomain.com] # список доменов, подключенных к сайту. Можно прописать несколько доменов, разделив их запятыми.
+  DEBUG=True #Локально используйте True, в продакшене - False
+  SECRET_KEY=sUpEr-Long-aNd-sEcurE-StRing #длинная и сложная строка
+  ALLOWED_HOSTS=[www.mydomain.com, mydomain.com] #список доменов, подключенных к сайту. Можно прописать несколько доменов, разделив их запятыми.
   ```
   
 2. Установите зависимости
