@@ -45,7 +45,6 @@ mv example.env .env
   ```
 2. Пропишите ваши переменные окружения (Ctrl+X выход из текстового редактора)
   ```
-    ```
   DEBUG=False
   SECRET_KEY=sUpEr-Long-aNd-sEcurE-StRing
   ALLOWED_HOSTS=[mydomain.pythonanyware.com, mydomain.com]
