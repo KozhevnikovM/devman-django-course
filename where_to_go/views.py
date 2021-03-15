@@ -13,5 +13,14 @@ def show_index(request):
 
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, id=place_id)
-    place_details = place.get_details()
+    place_details = {
+        "title": place.title,
+        "imgs": place.get_images_urls(),
+        "description_short": place.short_description,
+        "description_long": place.long_description,
+        "coordinates": {
+            "lat": place.lat,
+            "lng": place.lng,
+        }
+    }
     return JsonResponse(place_details, safe=False, json_dumps_params={'ensure_ascii': False, 'indent': 2, })

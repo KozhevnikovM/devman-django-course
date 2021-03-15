@@ -12,20 +12,7 @@ class Place(models.Model):
     long_description = HTMLField(verbose_name='Подробное описание', blank=True)
     lng = models.FloatField(verbose_name='Координата по долготе')
     lat = models.FloatField(verbose_name='Координата по широте')
-
-    def get_details(self):
-        return {
-            "title": self.title,
-            "imgs": self.get_images_urls(),
-            "description_short": self.short_description,
-            "description_long": self.long_description,
-            "coordinates": {
-                "lat": self.lat,
-                "lng": self.lng,
-            }
-        }
-        
-
+    
     def get_images_urls(self):
         try:
             return [item.image.url for item in get_list_or_404(Image, place=self)]
