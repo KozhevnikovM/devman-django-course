@@ -32,11 +32,11 @@ DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
-if not DEBUG:
+if SSL:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365
 
 # Application definition
 
