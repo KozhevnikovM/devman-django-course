@@ -57,11 +57,15 @@ mv example.env .env
 4. При необходимости, создайте суперпользователя и импортируйте точки.
 
 ## Импорт данных о точках из json:
+Из интернета:
 ```
-python manage.py load_place your-json-filepath
+python manage.py load_place --url url-for-your-json-url
+```
+или из файла расположенного локально:
+```
+python manage.py load_place --path your-json-local-file
 ```
 
-Где ```your-json-filepath``` - Путь до json-файла (url или локальный файл)
 Со структурой json-файла для импорта можно ознакомиться по [данной ссылке](https://github.com/devmanorg/where-to-go-places/tree/master/places)
 
 Скачать демонстрационные файлы json без картинок:
@@ -78,9 +82,9 @@ git pull origin master
 Для обработки сразу нескольких файлов из папки, можно воспользоваться циклом bash:
 ```
 for filename in temp/places/*.json; do
-  python manage.py load_place "$filename"
+  python manage.py load_place --path "$filename"
 done
 ```
 
 ## Project Goals
-The code is written for educational purposes on online-course for web-developers [dvmn.org](dvmn.org).
+Код написан в образовательных целях в рамках курса Django с сайта [dvmn.org](dvmn.org).
