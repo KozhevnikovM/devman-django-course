@@ -17,8 +17,8 @@ mv example.env .env
   
   ```
   DEBUG=True #Локально используйте True, в продакшене - False
-  SECRET_KEY=sUpEr-Long-aNd-sEcurE-StRing #длинная и сложная строка
-  ALLOWED_HOSTS=[www.mydomain.com, mydomain.com] #список доменов, подключенных к сайту. Можно прописать несколько доменов, разделив их запятыми.
+  SECRET_KEY='Secure-Me' #длинная и сложная строка для предотвращения CSRF-атак 
+  ALLOWED_HOSTS=localhost,127.0.0.1,'*' #список доменов, подключенных к сайту. Можно прописать несколько доменов, разделив их запятыми.
   ```
   
 2. Установите зависимости
@@ -44,7 +44,13 @@ mv example.env .env
   nano .env
   ```
 2. Пропишите ваши переменные окружения (Ctrl+X выход из текстового редактора)
-3. Установите вспомогательную утилиту от pythonanywhere и запустите деплой. Процесс пройдет автоматически.
+  ```
+    ```
+  DEBUG=False
+  SECRET_KEY=sUpEr-Long-aNd-sEcurE-StRing
+  ALLOWED_HOSTS=[mydomain.pythonanyware.com, mydomain.com]
+  ```
+4. Установите вспомогательную утилиту от pythonanywhere и запустите деплой. Процесс пройдет автоматически.
   ```bash
   pip3.6 install --user pythonanywhere
   pa_autoconfigure_django.py https://github.com/KozhevnikovM/devman-django-course
