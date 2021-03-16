@@ -14,14 +14,14 @@ class Command(BaseCommand):
         group.add_argument('--url', type=str, help='Url to global json file')
         group.add_argument('--path', type=str, help='Path to local json file')
 
-    def get_place_details(self, json_data):
+    def get_place_details(self, raw_place):
         place_details = {
-            'title': json_data['title'],
-            'short_description': json_data['description_short'],
-            'long_description': json_data['description_long'],
-            'lng': json_data['coordinates']['lng'],
-            'lat': json_data['coordinates']['lat'],
-            'imgs': json_data['imgs']
+            'title': raw_place['title'],
+            'short_description': raw_place['description_short'],
+            'long_description': raw_place['description_long'],
+            'lng': raw_place['coordinates']['lng'],
+            'lat': raw_place['coordinates']['lat'],
+            'imgs': raw_place['imgs']
         }
         return place_details
 
@@ -29,15 +29,15 @@ class Command(BaseCommand):
         if options['url']:
             response = requests.get(options['url'])
             response.raise_for_status()
-            json_data = response.json()
-            if 'error' in json_data:
-                raise requests.exceptions.HTTPError(json_data['error'])
+            raw_place = response.json()
+            if 'error' in raw_place:
+                raise requests.exceptions.HTTPError(raw_place['error'])
         
         if options['path']:
             with open(options['path'], 'r', encoding='utf-8') as file:
-                json_data = json.loads(file.read())
+                raw_place = json.loads(file.read())
         
-        place_details = self.get_place_details(json_data)
+        place_details = self.get_place_details(raw_place)
         urls = place_details.pop('imgs', None)
         place, created = Place.objects.get_or_create(title=place_details['title'], defaults=place_details)
         if not created:
