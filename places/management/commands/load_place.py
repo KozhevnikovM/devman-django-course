@@ -30,6 +30,8 @@ class Command(BaseCommand):
             response = requests.get(options['url'])
             response.raise_for_status()
             json_data = response.json()
+            if 'error' in json_data:
+                raise requests.exceptions.HTTPError(json_data['error'])
         
         if options['path']:
             with open(options['path'], 'r', encoding='utf-8') as file:
