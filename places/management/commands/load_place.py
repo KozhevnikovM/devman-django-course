@@ -37,8 +37,8 @@ class Command(BaseCommand):
         
         place_details = self.get_place_details(json_data)
         urls = place_details.pop('imgs', None)
-        place, get_place_result = Place.objects.get_or_create(title=place_details['title'], defaults=place_details)
-        if not get_place_result:
+        place, created = Place.objects.get_or_create(title=place_details['title'], defaults=place_details)
+        if not created:
             self.stdout.write(self.style.SUCCESS(f'{place} allready exists'))
         else:
             self.stdout.write(self.style.SUCCESS(f'Successfully Added place {place}'))
@@ -46,8 +46,8 @@ class Command(BaseCommand):
         
         for url in urls:
             filename = urlparse(url).path.split('/')[-1]
-            image, get_image_result = Image.objects.get_or_create(place=place, name=filename)
-            if not get_image_result:
+            image, created = Image.objects.get_or_create(place=place, name=filename)
+            if not created:
                  self.stdout.write(self.style.SUCCESS(f'{image} allready exists'))
                  continue
             response = requests.get(url)
