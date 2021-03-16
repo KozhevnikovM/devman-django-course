@@ -51,5 +51,6 @@ class Command(BaseCommand):
                  self.stdout.write(self.style.SUCCESS(f'{image} allready exists'))
                  continue
             response = requests.get(url)
+            response.raise_for_status()
             image.image.save(filename, ContentFile(response.content), save=True)
             self.stdout.write(self.style.SUCCESS(f'Successfully Added {image}'))
