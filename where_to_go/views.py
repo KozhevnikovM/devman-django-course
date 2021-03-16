@@ -4,7 +4,24 @@ from places.models import Place, Image
 from django.utils import html, safestring
 
 def show_index(request):
-    places = Place.get_points()
+    places = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [place.lng, place.lat]
+                },
+            "properties": {
+                "title": place.title,
+                "placeId": place.id,
+                "detailsUrl": f"places/{place.id}"
+                }
+            }
+            for place in Place.objects.all()
+        ]
+    }
     context = {
         'places': places
     }

@@ -15,27 +15,6 @@ class Place(models.Model):
     
     def get_images_urls(self):
         return [image.image.url for image in self.images.all()]
-    
-    @classmethod
-    def get_points(cls):
-        return {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [place.lng, place.lat]
-                },
-                "properties": {
-                    "title": place.title,
-                    "placeId": place.id,
-                    "detailsUrl": f"places/{place.id}"
-
-                }
-                }
-                for place in cls.objects.all()]
-            }
 
     def __str__(self):
         return self.title
